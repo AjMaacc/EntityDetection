@@ -2,6 +2,7 @@ package de.themoep.entitydetection.searcher;
 
 import de.themoep.entitydetection.EntityDetection;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -118,17 +119,19 @@ public class EntitySearch extends BukkitRunnable {
     }
 
     public BukkitTask start() {
-        if (searchedEntities.size() > 0) {
+        if (!searchedEntities.isEmpty()) {
             for (World world : plugin.getServer().getWorlds()) {
                 entities.addAll(world.getEntities());
             }
         }
-        if (searchedBlockStates.size() > 0 || searchedMaterial.size() > 0) {
-            for (World world : plugin.getServer().getWorlds()) {
-                for (Chunk chunk : world.getLoadedChunks()) {
-                    blockStates.addAll(Arrays.asList(chunk.getTileEntities()));
+        if (!searchedBlockStates.isEmpty() || !searchedMaterial.isEmpty()) {
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                for (World world : plugin.getServer().getWorlds()) {
+                    for (Chunk chunk : world.getLoadedChunks()) {
+                        blockStates.addAll(Arrays.asList(chunk.getTileEntities()));
+                    }
                 }
-            }
+            });
         }
         return runTaskAsynchronously(plugin);
     }

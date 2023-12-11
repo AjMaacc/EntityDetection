@@ -59,7 +59,7 @@ public class EntitySearch extends BukkitRunnable {
     }
 
     public void setType(SearchType type) {
-        if(getSearchedEntities().size() == 0 && getSearchedBlockStates().size() == 0 && getSearchedMaterial().size() == 0) {
+        if(getSearchedEntities().isEmpty() && getSearchedBlockStates().isEmpty() && getSearchedMaterial().isEmpty()) {
             this.type = type;
         } else {
             this.type = SearchType.CUSTOM;
@@ -151,8 +151,8 @@ public class EntitySearch extends BukkitRunnable {
     public void run() {
         startTime = System.currentTimeMillis();
         SearchResult<?> result;
-        if(isWorldGuardRegion) result = new WGSearchResult(this);
-        else result = new ChunkSearchResult(this);
+        if(isWorldGuardRegion) result = new WGSearchResult(this, plugin);
+        else result = new ChunkSearchResult(this, plugin);
 
         for(Entity e : entities) {
             if(!running) {

@@ -6,6 +6,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import de.themoep.entitydetection.EntityDetection;
 import de.themoep.entitydetection.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,8 +20,8 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 public class WGSearchResult extends SearchResult<WGSearchResult.ProtectedRegionEntry> {
-    public WGSearchResult(EntitySearch search) {
-        super(search);
+    public WGSearchResult(EntitySearch search, EntityDetection plugin) {
+        super(search, plugin);
     }
 
     @Override

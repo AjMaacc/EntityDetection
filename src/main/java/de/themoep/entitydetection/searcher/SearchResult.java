@@ -1,5 +1,6 @@
 package de.themoep.entitydetection.searcher;
 
+import de.themoep.entitydetection.EntityDetection;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -31,6 +32,7 @@ import java.util.Set;
  * along with this program. If not, see <http://mozilla.org/MPL/2.0/>.
  */
 public abstract class SearchResult<T> {
+    private EntityDetection plugin;
     private SearchType type;
     private Set<String> searched;
     private long startTime;
@@ -46,7 +48,8 @@ public abstract class SearchResult<T> {
      */
     protected List<SearchResultEntry<T>> resultEntryList = new ArrayList<>();
 
-    public SearchResult(EntitySearch search) {
+    public SearchResult(EntitySearch search, EntityDetection plugin) {
+        this.plugin = plugin;
         type = search.getType();
         searched = new HashSet<String>();
         for (EntityType e : search.getSearchedEntities()) {
@@ -117,4 +120,7 @@ public abstract class SearchResult<T> {
     }
 
     public abstract void teleport(Player sender, SearchResultEntry<T> entry, int i);
+    public EntityDetection getPlugin(){
+        return plugin;
+    }
 }

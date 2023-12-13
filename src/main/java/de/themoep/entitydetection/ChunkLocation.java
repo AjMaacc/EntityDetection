@@ -1,9 +1,12 @@
 package de.themoep.entitydetection;
 
+import io.papermc.lib.PaperLib;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Copyright 2016 Max Lee (https://github.com/Phoenix616/)
@@ -53,6 +56,15 @@ public class ChunkLocation {
             throw new IllegalArgumentException("No world with the name " + getWorld() + " found on the server for this chunk entry?");
         }
         return world.getChunkAt(x, z);
+    }
+    public CompletableFuture<Chunk> toBukkitAsync(Server server) {
+        World worldObj = server.getWorld(this.world);
+        if (worldObj == null) {
+            CompletableFuture<Chunk> future = new CompletableFuture<>();
+            future.completeExceptionally(new IllegalArgumentException("No world with the name " + getWorld() + " found on the server for this chunk entry?"));
+            return future;
+        }
+        return PaperLib.getChunkAtAsync(worldObj, x, z, true);
     }
 
     public int hashCode() {
